@@ -1,0 +1,42 @@
+﻿@page "/samples/todolistmemory"
+<h3>Simple in-memory Todo List</h3>
+<h4>You have @todos.Count(t => !t.IsDone) tasks to be done.</h4>
+
+<hr/>
+
+<form @onsubmit="@save">
+    Add task: <input @bind="@newTodo" />
+    <input type="button" value="Add" @onclick="@save" />
+</form>
+
+<hr/>
+
+<ul>
+    @foreach(TodoItem todo in todos)
+    {
+        <li>
+            <input type="checkbox" @bind="@todo.IsDone" />
+            <input @bind="@todo.Title" />
+        </li>
+    }
+</ul>
+
+
+@code {
+
+
+    private string newTodo = "";
+
+    private IList<TodoItem> todos = new List<TodoItem>();
+
+    protected override void OnInitialized()
+    {
+        todos.Add(new TodoItem { Id = 1, Title = "todo1", IsDone = false });
+    }
+
+    protected void save()
+    {
+        todos.Add(new TodoItem { Title = newTodo });
+        newTodo = null;
+    }
+}
